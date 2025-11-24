@@ -2,8 +2,10 @@
 
 ## Quick Start (1 Minute)
 
+### Option 1: Automated Setup (Recommended)
+
 ```bash
-# Make setup script executable (if not already)
+# Make setup script executable
 chmod +x setup_and_run.sh
 
 # Run everything!
@@ -11,6 +13,30 @@ chmod +x setup_and_run.sh
 ```
 
 Then open: **http://localhost:3000**
+
+### Option 2: Manual Setup with uv (Faster)
+
+```bash
+# Install uv if not already installed
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# Or: brew install uv
+
+# Backend
+cd backend
+uv venv
+source .venv/bin/activate
+uv pip install -r requirements.txt
+python manage.py migrate
+cd .. && python populate_db.py
+
+# Start backend
+cd backend && python manage.py runserver 8000 &
+
+# Frontend (new terminal)
+cd frontend
+npm install
+npm run dev
+```
 
 ---
 
@@ -221,10 +247,20 @@ cms_real_estate/
 
 ## Environment Variables
 
-Backend `.env` (already configured):
+Backend `.env` (create from .env.example):
+```env
+# Required: Choose at least one AI provider
+GEMINI_API_KEY=your_gemini_api_key_here
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+
+# Optional
+GROQ_API_KEY=your_groq_api_key_here
 ```
-GEMINI_API_KEY=AIzaSyCC4wZDWOFAEGgAaXL70xJ8vsX9JhDf7F4
-```
+
+**Get API Keys**:
+- Google Gemini: https://makersuite.google.com/app/apikey (Free)
+- Anthropic Claude: https://console.anthropic.com/ (Production recommended)
+- Groq: https://console.groq.com/ (Very fast, optional)
 
 ---
 
@@ -270,12 +306,13 @@ GEMINI_API_KEY=AIzaSyCC4wZDWOFAEGgAaXL70xJ8vsX9JhDf7F4
 ## Tech Stack
 
 ### Backend
-- Django 4.2
+- Django 5.0
 - Django Ninja (FastAPI-like for Django)
-- LangChain + LangGraph
-- Google Gemini AI
-- ChromaDB
+- LangChain + LangGraph (multi-agent orchestration)
+- Google Gemini AI / Anthropic Claude
+- ChromaDB (vector database)
 - SQLite (easily migrates to PostgreSQL)
+- uv (ultra-fast Python package manager)
 
 ### Frontend
 - Next.js 14

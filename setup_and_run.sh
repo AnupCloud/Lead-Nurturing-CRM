@@ -17,10 +17,24 @@ NC='\033[0m' # No Color
 echo -e "${BLUE}Step 1: Setting up Backend...${NC}"
 cd backend
 
+# Check if uv is installed
+if command -v uv &> /dev/null; then
+    echo -e "${GREEN}✓ uv detected - using ultra-fast package manager${NC}"
+    USE_UV=true
+else
+    echo -e "${YELLOW}! uv not found - using pip (slower)${NC}"
+    echo -e "${YELLOW}  Install uv for faster installs: curl -LsSf https://astral.sh/uv/install.sh | sh${NC}"
+    USE_UV=false
+fi
+
 # Check if venv exists
 if [ ! -d ".venv" ]; then
     echo -e "${YELLOW}Creating virtual environment...${NC}"
-    python3 -m venv .venv
+    if [ "$USE_UV" = true ]; then
+        uv venv
+    else
+        python3 -m venv .venv
+    fi
 fi
 
 # Activate venv
@@ -29,8 +43,13 @@ source .venv/bin/activate
 # Install dependencies (if needed)
 if [ ! -f ".venv/installed" ]; then
     echo -e "${YELLOW}Installing Python dependencies...${NC}"
-    pip install -r requirements.txt 2>/dev/null || pip install django django-ninja python-dotenv langchain langchain-google-genai chromadb pypdf
+    if [ "$USE_UV" = true ]; then
+        uv pip install -r requirements.txt
+    else
+        pip install -r requirements.txt
+    fi
     touch .venv/installed
+    echo -e "${GREEN}✓ Dependencies installed${NC}"
 fi
 
 # Run migrations
@@ -59,8 +78,17 @@ echo ""
 cd backend
 source .venv/bin/activate
 
+# Check if .env exists
+if [ ! -f ".env" ]; then
+    echo -e "${YELLOW}! No .env file found. Creating from .env.example...${NC}"
+    if [ -f "../.env.example" ]; then
+        cp ../.env.example .env
+        echo -e "${YELLOW}! Please edit backend/.env and add your API keys${NC}"
+    fi
+fi
+
 # Start backend in background
-GEMINI_API_KEY="AIzaSyCC4wZDWOFAEGgAaXL70xJ8vsX9JhDf7F4" python manage.py runserver 8000 > ../backend.log 2>&1 &
+python manage.py runserver 8000 > ../backend.log 2>&1 &
 BACKEND_PID=$!
 echo -e "${GREEN}✓ Backend started (PID: $BACKEND_PID)${NC}"
 echo "  Logs: backend.log"

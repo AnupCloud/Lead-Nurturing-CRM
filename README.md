@@ -3,9 +3,10 @@
 > **PropLens AI**: Intelligent lead nurturing and campaign management system for real estate sales teams
 
 [![Next.js](https://img.shields.io/badge/Next.js-14.0-black?logo=next.js)](https://nextjs.org/)
-[![Django](https://img.shields.io/badge/Django-5.2-green?logo=django)](https://www.djangoproject.com/)
+[![Django](https://img.shields.io/badge/Django-5.0-green?logo=django)](https://www.djangoproject.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python)](https://www.python.org/)
+[![uv](https://img.shields.io/badge/uv-package_manager-purple)](https://github.com/astral-sh/uv)
 
 ---
 
@@ -111,14 +112,15 @@ An AI agent-powered system that:
 - **State Management**: React Hooks (useState, useEffect)
 
 ### Backend
-- **Framework**: Django 5.2
+- **Framework**: Django 5.0
 - **API**: Django Ninja (FastAPI-style REST APIs)
 - **Database**: SQLite (development) / PostgreSQL (production-ready)
-- **AI/ML**: 
-  - OpenAI GPT-4 for message generation
-  - LangChain for RAG implementation
+- **Package Manager**: uv (ultra-fast Python package installer)
+- **AI/ML**:
+  - Google Gemini AI / Anthropic Claude for message generation
+  - LangChain + LangGraph for multi-agent orchestration
   - ChromaDB for vector storage
-  - HuggingFace Embeddings
+  - HuggingFace Embeddings for RAG
 
 ### Other Tools
 - **Version Control**: Git
@@ -133,26 +135,34 @@ An AI agent-powered system that:
 
 - **Node.js**: v18+ ([Download](https://nodejs.org/))
 - **Python**: v3.11+ ([Download](https://www.python.org/downloads/))
+- **uv**: Latest version ([Install](https://github.com/astral-sh/uv))
+  ```bash
+  # Install uv (ultra-fast Python package manager)
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  # Or on macOS:
+  brew install uv
+  ```
 - **Git**: Latest version
+- **AI API Key**: Google Gemini API key ([Get one](https://makersuite.google.com/app/apikey))
 
 ### Backend Setup
 
 1. **Clone the repository**
 ```bash
-git clone <repository-url>
-cd cms_real_estate/backend
+git clone https://github.com/AnupCloud/Lead-Nurturing-CRM.git
+cd Lead-Nurturing-CRM/backend
 ```
 
-2. **Create virtual environment**
+2. **Create virtual environment with uv**
 ```bash
-python -m venv .venv
+# uv automatically creates and manages virtual environments
+uv venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
-3. **Install dependencies**
+3. **Install dependencies using uv**
 ```bash
-pip install -r requirements.txt
-# OR using uv (faster)
+# uv is much faster than pip
 uv pip install -r requirements.txt
 ```
 
@@ -160,27 +170,39 @@ uv pip install -r requirements.txt
 
 Create a `.env` file in the `backend` directory:
 ```env
-OPENAI_API_KEY=your_openai_api_key_here
-SECRET_KEY=your_django_secret_key
+# Required: Choose your AI provider (use at least one)
+GEMINI_API_KEY=your_gemini_api_key_here
+ANTHROPIC_API_KEY=your_anthropic_api_key_here  # Optional alternative
+
+# Optional: Additional AI providers
+GROQ_API_KEY=your_groq_api_key_here  # Optional for faster inference
+
+# Django settings
+SECRET_KEY=your-secret-key-here
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
 ```
 
+**Get API Keys**:
+- **Google Gemini**: https://makersuite.google.com/app/apikey (Free tier available)
+- **Anthropic Claude**: https://console.anthropic.com/ (Recommended for production)
+- **Groq**: https://console.groq.com/ (Optional, very fast)
+
 5. **Run migrations**
 ```bash
-python manage.py makemigrations
 python manage.py migrate
 ```
 
-6. **Load sample data (optional)**
+6. **Populate sample data**
 ```bash
-python manage.py loaddata data/sample_leads.json
-python manage.py loaddata data/sample_projects.json
+cd ..
+python populate_db.py
 ```
 
 7. **Start the development server**
 ```bash
-python manage.py runserver 0.0.0.0:8000
+cd backend
+python manage.py runserver 8000
 ```
 
 Backend API will be available at: `http://localhost:8000`
@@ -334,8 +356,8 @@ in person? I have availability this week!"
 **Technology Stack**:
 - **Vector Database**: ChromaDB for document embeddings
 - **Embeddings**: HuggingFace all-MiniLM-L6-v2
-- **LLM**: OpenAI GPT-4 for response generation
-- **Framework**: LangChain for RAG orchestration
+- **LLM**: Google Gemini 1.5 Pro / Anthropic Claude for response generation
+- **Framework**: LangChain + LangGraph for multi-agent RAG orchestration
 
 ![AI Follow-ups List](docs/images/11_ai_followups_list.png)
 *AI Agent Follow-ups dashboard showing all active conversations*
@@ -468,9 +490,9 @@ graph TD
 
 | Feature | Technology | Benefit |
 |---------|-----------|----------|
-| **Message Personalization** | GPT-4 + Lead Data | 10x more relevant than generic templates |
+| **Message Personalization** | Gemini/Claude + Lead Data | 10x more relevant than generic templates |
 | **RAG Q&A** | ChromaDB + LangChain | Accurate property information |
-| **Sentiment Analysis** | GPT-4 NLP | Prioritize high-intent leads |
+| **Sentiment Analysis** | LLM-powered NLP | Prioritize high-intent leads |
 | **Goal Detection** | Intent Classification | Automatic conversion tracking |
 | **Scalability** | Async Processing | Handle 1000s of leads |
 | **Customization** | Configurable Settings | Adapt to brand voice |
@@ -977,9 +999,11 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🙏 Acknowledgments
 
-- OpenAI for GPT-4 API
-- LangChain for RAG framework
+- Google Gemini AI and Anthropic Claude for LLM APIs
+- LangChain and LangGraph for multi-agent framework
+- Astral (uv) for ultra-fast Python package management
 - Next.js and Django communities
+- ChromaDB for vector database
 - All contributors and testers
 
 ---

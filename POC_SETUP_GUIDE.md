@@ -33,7 +33,12 @@ This guide will help you set up and test the **fully functional** Lead Nurturing
 
 - Python 3.11 or higher
 - Node.js 18 or higher
-- Environment variable: `GEMINI_API_KEY` (already set in `.env`)
+- **uv** (recommended) or pip for Python packages
+  - Install uv: `curl -LsSf https://astral.sh/uv/install.sh | sh` or `brew install uv`
+- **AI API Key**: Get at least one:
+  - Google Gemini: https://makersuite.google.com/app/apikey (Free tier)
+  - Anthropic Claude: https://console.anthropic.com/ (Recommended)
+  - Groq: https://console.groq.com/ (Optional)
 
 ---
 
@@ -41,18 +46,27 @@ This guide will help you set up and test the **fully functional** Lead Nurturing
 
 ### Step 1: Backend Setup
 
+#### Using uv (Recommended - Much Faster)
+
 ```bash
 cd backend
 
-# Activate virtual environment (already exists)
-source .venv/bin/activate
+# Create and activate virtual environment with uv
+uv venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
-# Apply migrations (create database schema)
-python manage.py makemigrations
+# Install dependencies with uv (10-100x faster than pip!)
+uv pip install -r requirements.txt
+
+# Create .env file
+cat > .env << 'EOF'
+GEMINI_API_KEY=your_gemini_api_key_here
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+GROQ_API_KEY=your_groq_api_key_here
+EOF
+
+# Apply migrations
 python manage.py migrate
-
-# Create a superuser (optional, for admin panel)
-python manage.py createsuperuser
 
 # Populate sample data (IMPORTANT!)
 cd ..
@@ -61,6 +75,16 @@ python populate_db.py
 # Start backend server
 cd backend
 python manage.py runserver 8000
+```
+
+#### Alternative: Using pip (Slower)
+
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+# ... rest of steps same as above
 ```
 
 **Verify Backend**: Open http://localhost:8000/api/health - should return `{"status": "ok"}`
