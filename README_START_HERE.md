@@ -249,18 +249,15 @@ cms_real_estate/
 
 Backend `.env` (create from .env.example):
 ```env
-# Required: Choose at least one AI provider
-GEMINI_API_KEY=your_gemini_api_key_here
+# Required: Anthropic Claude API Key
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
-
-# Optional
-GROQ_API_KEY=your_groq_api_key_here
 ```
 
-**Get API Keys**:
-- Google Gemini: https://makersuite.google.com/app/apikey (Free)
-- Anthropic Claude: https://console.anthropic.com/ (Production recommended)
-- Groq: https://console.groq.com/ (Very fast, optional)
+**Get API Key**:
+- Anthropic Claude: https://console.anthropic.com/
+  - Sign up for free credits
+  - Create API key in account settings
+  - Docs: https://docs.anthropic.com/claude/docs
 
 ---
 
@@ -309,7 +306,7 @@ GROQ_API_KEY=your_groq_api_key_here
 - Django 5.0
 - Django Ninja (FastAPI-like for Django)
 - LangChain + LangGraph (multi-agent orchestration)
-- Google Gemini AI / Anthropic Claude
+- Anthropic Claude 3.5 Sonnet
 - ChromaDB (vector database)
 - SQLite (easily migrates to PostgreSQL)
 - uv (ultra-fast Python package manager)

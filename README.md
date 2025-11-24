@@ -117,10 +117,10 @@ An AI agent-powered system that:
 - **Database**: SQLite (development) / PostgreSQL (production-ready)
 - **Package Manager**: uv (ultra-fast Python package installer)
 - **AI/ML**:
-  - Google Gemini AI / Anthropic Claude for message generation
+  - Anthropic Claude 3.5 Sonnet for intelligent message generation
   - LangChain + LangGraph for multi-agent orchestration
   - ChromaDB for vector storage
-  - HuggingFace Embeddings for RAG
+  - HuggingFace Embeddings for semantic search
 
 ### Other Tools
 - **Version Control**: Git
@@ -143,7 +143,7 @@ An AI agent-powered system that:
   brew install uv
   ```
 - **Git**: Latest version
-- **AI API Key**: Google Gemini API key ([Get one](https://makersuite.google.com/app/apikey))
+- **Anthropic API Key**: Claude API key ([Get one](https://console.anthropic.com/))
 
 ### Backend Setup
 
@@ -170,12 +170,8 @@ uv pip install -r requirements.txt
 
 Create a `.env` file in the `backend` directory:
 ```env
-# Required: Choose your AI provider (use at least one)
-GEMINI_API_KEY=your_gemini_api_key_here
-ANTHROPIC_API_KEY=your_anthropic_api_key_here  # Optional alternative
-
-# Optional: Additional AI providers
-GROQ_API_KEY=your_groq_api_key_here  # Optional for faster inference
+# Required: Anthropic Claude API Key
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
 
 # Django settings
 SECRET_KEY=your-secret-key-here
@@ -183,10 +179,11 @@ DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
 ```
 
-**Get API Keys**:
-- **Google Gemini**: https://makersuite.google.com/app/apikey (Free tier available)
-- **Anthropic Claude**: https://console.anthropic.com/ (Recommended for production)
-- **Groq**: https://console.groq.com/ (Optional, very fast)
+**Get API Key**:
+- **Anthropic Claude**: https://console.anthropic.com/
+  - Sign up for free credits
+  - Create API key in your account settings
+  - Documentation: https://docs.anthropic.com/claude/docs
 
 5. **Run migrations**
 ```bash
@@ -356,7 +353,7 @@ in person? I have availability this week!"
 **Technology Stack**:
 - **Vector Database**: ChromaDB for document embeddings
 - **Embeddings**: HuggingFace all-MiniLM-L6-v2
-- **LLM**: Google Gemini 1.5 Pro / Anthropic Claude for response generation
+- **LLM**: Anthropic Claude 3.5 Sonnet for intelligent response generation
 - **Framework**: LangChain + LangGraph for multi-agent RAG orchestration
 
 ![AI Follow-ups List](docs/images/11_ai_followups_list.png)
@@ -490,12 +487,12 @@ graph TD
 
 | Feature | Technology | Benefit |
 |---------|-----------|----------|
-| **Message Personalization** | Gemini/Claude + Lead Data | 10x more relevant than generic templates |
-| **RAG Q&A** | ChromaDB + LangChain | Accurate property information |
-| **Sentiment Analysis** | LLM-powered NLP | Prioritize high-intent leads |
+| **Message Personalization** | Claude 3.5 Sonnet + Lead Data | 10x more relevant than generic templates |
+| **RAG Q&A** | ChromaDB + LangChain | Accurate property information from brochures |
+| **Sentiment Analysis** | Claude NLP | Prioritize high-intent leads |
 | **Goal Detection** | Intent Classification | Automatic conversion tracking |
-| **Scalability** | Async Processing | Handle 1000s of leads |
-| **Customization** | Configurable Settings | Adapt to brand voice |
+| **Scalability** | Async Processing | Handle 1000s of leads simultaneously |
+| **Customization** | Configurable Settings | Adapt to your brand voice |
 
 ---
 
@@ -999,7 +996,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🙏 Acknowledgments
 
-- Google Gemini AI and Anthropic Claude for LLM APIs
+- Anthropic for Claude 3.5 Sonnet API
 - LangChain and LangGraph for multi-agent framework
 - Astral (uv) for ultra-fast Python package management
 - Next.js and Django communities

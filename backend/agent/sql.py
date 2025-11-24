@@ -1,15 +1,14 @@
 import os
 import sqlite3
 from dotenv import load_dotenv
-import google.generativeai as genai
 
 load_dotenv()
 
 class SQLSystem:
     def __init__(self):
         self.db_path = "./db.sqlite3"
-        genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-        self.model = genai.GenerativeModel('gemini-2.0-flash')
+        # SQL queries are generated using rule-based logic (no LLM needed)
+        # Anthropic Claude is used only for RAG responses in rag.py
         self.schema = self._get_schema()
 
     def _get_schema(self):

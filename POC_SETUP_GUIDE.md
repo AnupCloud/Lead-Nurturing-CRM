@@ -35,10 +35,10 @@ This guide will help you set up and test the **fully functional** Lead Nurturing
 - Node.js 18 or higher
 - **uv** (recommended) or pip for Python packages
   - Install uv: `curl -LsSf https://astral.sh/uv/install.sh | sh` or `brew install uv`
-- **AI API Key**: Get at least one:
-  - Google Gemini: https://makersuite.google.com/app/apikey (Free tier)
-  - Anthropic Claude: https://console.anthropic.com/ (Recommended)
-  - Groq: https://console.groq.com/ (Optional)
+- **Anthropic API Key**: Required
+  - Sign up: https://console.anthropic.com/
+  - Free credits available for testing
+  - Documentation: https://docs.anthropic.com/claude/docs
 
 ---
 
@@ -60,9 +60,7 @@ uv pip install -r requirements.txt
 
 # Create .env file
 cat > .env << 'EOF'
-GEMINI_API_KEY=your_gemini_api_key_here
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
-GROQ_API_KEY=your_groq_api_key_here
 EOF
 
 # Apply migrations
@@ -430,9 +428,10 @@ Here's a complete scenario to demonstrate all features:
 
 ### Issue: Backend 500 error on campaign execute
 **Solution**:
-1. Check `GEMINI_API_KEY` is set in `backend/.env`
+1. Check `ANTHROPIC_API_KEY` is set in `backend/.env`
 2. Verify migrations are applied: `python manage.py migrate`
 3. Check backend console for detailed error
+4. Ensure you have credits in your Anthropic account
 
 ### Issue: Conversations not showing
 **Solution**:
