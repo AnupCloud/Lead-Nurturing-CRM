@@ -72,3 +72,6 @@ coverage.xml
 *.bak
 *.tmp
 temp/
+
+# Claude AI settings (keep directory structure, ignore local settings)
+.claude/settings.local.json
