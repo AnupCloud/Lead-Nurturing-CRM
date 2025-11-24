@@ -73,5 +73,5 @@ coverage.xml
 *.tmp
 temp/
 
-# Claude AI settings (keep directory structure, ignore local settings)
-.claude/settings.local.json
+# Claude AI workspace (exclude from repository)
+.claude/
