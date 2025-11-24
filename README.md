@@ -1,12 +1,69 @@
 # Lead Nurturing CRM - AI-Powered Real Estate Sales Platform
 
-> **PropLens AI**: Intelligent lead nurturing and campaign management system for real estate sales teams
+> **PropLens AI**: Intelligent lead nurturing and campaign management system for real estate sales teams powered by Anthropic Claude 3.5 Sonnet
 
 [![Next.js](https://img.shields.io/badge/Next.js-14.0-black?logo=next.js)](https://nextjs.org/)
 [![Django](https://img.shields.io/badge/Django-5.0-green?logo=django)](https://www.djangoproject.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python)](https://www.python.org/)
 [![uv](https://img.shields.io/badge/uv-package_manager-purple)](https://github.com/astral-sh/uv)
+[![Anthropic](https://img.shields.io/badge/Anthropic-Claude_3.5-orange)](https://www.anthropic.com/)
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.11+
+- Node.js 18+
+- [uv](https://github.com/astral-sh/uv) (recommended) or pip
+- [Anthropic API Key](https://console.anthropic.com/) (free credits available)
+
+### Installation
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/AnupCloud/Lead-Nurturing-CRM.git
+cd Lead-Nurturing-CRM
+
+# 2. Install uv (ultra-fast Python package manager)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# Or: brew install uv
+
+# 3. Setup Backend
+cd backend
+uv venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+uv pip install -r requirements.txt
+
+# 4. Create .env file
+cat > .env << 'EOF'
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+EOF
+
+# 5. Setup Database & Sample Data
+python manage.py migrate
+cd ..
+python populate_db.py
+
+# 6. Start Backend (in backend directory)
+cd backend
+python manage.py runserver 8000
+
+# 7. Setup Frontend (new terminal)
+cd frontend
+npm install
+npm run dev
+
+# 8. Open Browser
+# http://localhost:3000
+```
+
+**Get Your Anthropic API Key:**
+1. Visit https://console.anthropic.com/
+2. Sign up for free credits ($5)
+3. Create API key in Settings
+4. Add to `backend/.env`
 
 ---
 
@@ -15,33 +72,32 @@
 - [Overview](#overview)
 - [Key Features](#key-features)
 - [Tech Stack](#tech-stack)
-- [Installation \& Setup](#installation--setup)
-- [Application Screenshots](#application-screenshots)
-- [Implemented Features](#implemented-features)
-- [Future Improvements](#future-improvements)
+- [Detailed Setup Guide](#detailed-setup-guide)
+- [Usage Guide](#usage-guide)
 - [Project Structure](#project-structure)
 - [API Documentation](#api-documentation)
+- [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 
 ---
 
 ## 🎯 Overview
 
-**Lead Nurturing CRM** is an AI-powered platform designed to help real estate sales teams revive past customer leads from their CRM database and convert them into property visits. The system leverages AI agents to create hyper-personalized messaging based on past lead data, automate follow-ups, and track campaign performance.
+**Lead Nurturing CRM** is an AI-powered platform designed to help real estate sales teams revive past customer leads from their CRM database and convert them into property visits. The system leverages Anthropic Claude to create hyper-personalized messaging based on past lead data, automate follow-ups, and track campaign performance.
 
 ### The Challenge
 
-Property sales associates need an efficient way to send personalized follow-ups to leads stored in the CRM. This solution enables them to trigger automated, context-aware emails or WhatsappWhatsApp messages, leveraging past enquiry data for hyper-personalization.
+Property sales associates need an efficient way to send personalized follow-ups to leads stored in the CRM. This solution enables them to trigger automated, context-aware messages leveraging past enquiry data for hyper-personalization.
 
 ### The Solution
 
 An AI agent-powered system that:
 - ✅ Shortlists leads based on multiple criteria (budget, unit type, project, status)
-- ✅ Generates hyper-personalized outreach messages using AI
-- ✅ Automates message dispatch without manual intervention
+- ✅ Generates hyper-personalized outreach messages using Claude 3.5 Sonnet
 - ✅ Responds intelligently to customer queries using RAG (Retrieval Augmented Generation)
-- ✅ Schedules property visits and sales calls
+- ✅ Automatically detects intent and schedules property visits
 - ✅ Tracks campaign performance with comprehensive analytics
+- ✅ Multi-agent AI system for optimal conversation management
 
 ---
 
@@ -50,13 +106,13 @@ An AI agent-powered system that:
 ### 1. **Intelligent Lead Shortlisting**
 - Filter leads by project, budget range, unit type, lead status
 - View matching lead count in real-time
-- Flexible criteria with at least 2 filter requirement
+- Flexible criteria with multiple filter combinations
 
 ### 2. **AI-Powered Campaign Creation**
 - Select target project for campaign
 - Choose messaging channel (Email/WhatsApp)
 - Add special offers and promotions
-- AI generates personalized messages for each lead
+- Claude generates personalized messages for each lead
 
 ### 3. **Campaign Execution**
 - One-click campaign execution
@@ -69,19 +125,19 @@ An AI agent-powered system that:
 
 ### 4. **AI Agent Follow-ups**
 - View all ongoing conversations in one place
-- AI responds to customer queries using property knowledge base
-- Sentiment analysis for lead prioritization
+- Claude responds to customer queries using property knowledge base
+- Automatic goal detection (visit/call scheduling)
 - Manual message override capability
-- Goal tracking (visit/call scheduled)
+- Real-time conversation tracking
 
 ### 5. **Campaign Analytics**
 - Campaign-wise performance metrics
 - Track leads shortlisted, messages sent, responses received
 - Monitor goal achievement (visits/calls scheduled)
-- Visual dashboards with charts and trends
+- Visual dashboards
 
 ### 6. **Knowledge Base Management**
-- Upload property brochures and documents (PDF, DOCX, TXT)
+- Upload property brochures (PDF, DOCX, TXT)
 - AI-powered RAG system for intelligent information retrieval
 - Automatic document processing and embedding
 - Property-specific information for personalization
@@ -97,7 +153,6 @@ An AI agent-powered system that:
 - Set maximum follow-up attempts
 - Choose messaging focus (features, pricing, location, investment)
 - Select AI response style (professional, friendly, direct, detailed)
-- Set urgency level (low, medium, high)
 - Custom AI instructions for behavior control
 
 ---
@@ -122,686 +177,246 @@ An AI agent-powered system that:
   - ChromaDB for vector storage
   - HuggingFace Embeddings for semantic search
 
-### Other Tools
-- **Version Control**: Git
-- **Package Managers**: npm (frontend), uv/pip (backend)
-- **Development**: Hot reload, TypeScript checking
+### AI Architecture
+- **LLM**: Anthropic Claude 3.5 Sonnet
+- **RAG System**: ChromaDB + LangChain
+- **Multi-Agent**: LangGraph for agent orchestration
+- **Embeddings**: HuggingFace all-MiniLM-L6-v2
 
 ---
 
-## 🚀 Installation & Setup
+## 📖 Detailed Setup Guide
 
-### Prerequisites
+### Step 1: Install Prerequisites
 
-- **Node.js**: v18+ ([Download](https://nodejs.org/))
-- **Python**: v3.11+ ([Download](https://www.python.org/downloads/))
-- **uv**: Latest version ([Install](https://github.com/astral-sh/uv))
-  ```bash
-  # Install uv (ultra-fast Python package manager)
-  curl -LsSf https://astral.sh/uv/install.sh | sh
-  # Or on macOS:
-  brew install uv
-  ```
-- **Git**: Latest version
-- **Anthropic API Key**: Claude API key ([Get one](https://console.anthropic.com/))
-
-### Backend Setup
-
-1. **Clone the repository**
+#### Install uv (Recommended)
 ```bash
-git clone https://github.com/AnupCloud/Lead-Nurturing-CRM.git
-cd Lead-Nurturing-CRM/backend
+# macOS/Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# macOS with Homebrew
+brew install uv
+
+# Windows
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-2. **Create virtual environment with uv**
+#### Get Anthropic API Key
+1. Visit https://console.anthropic.com/
+2. Sign up (free $5 credits included)
+3. Navigate to Settings → API Keys
+4. Create new API key
+5. Copy and save securely
+
+### Step 2: Backend Setup
+
 ```bash
-# uv automatically creates and manages virtual environments
+cd backend
+
+# Create virtual environment with uv
 uv venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-```
 
-3. **Install dependencies using uv**
-```bash
-# uv is much faster than pip
+# Activate virtual environment
+source .venv/bin/activate  # macOS/Linux
+# .venv\Scripts\activate    # Windows
+
+# Install dependencies (10-100x faster than pip!)
 uv pip install -r requirements.txt
+
+# Alternative with pip (slower)
+# pip install -r requirements.txt
 ```
 
-4. **Set up environment variables**
+### Step 3: Environment Configuration
 
-Create a `.env` file in the `backend` directory:
+Create `.env` file in `backend` directory:
+
 ```env
-# Required: Anthropic Claude API Key
-ANTHROPIC_API_KEY=your_anthropic_api_key_here
+# Required
+ANTHROPIC_API_KEY=sk-ant-api03-your-key-here
 
-# Django settings
+# Optional (auto-generated if not provided)
 SECRET_KEY=your-secret-key-here
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
 ```
 
-**Get API Key**:
-- **Anthropic Claude**: https://console.anthropic.com/
-  - Sign up for free credits
-  - Create API key in your account settings
-  - Documentation: https://docs.anthropic.com/claude/docs
+### Step 4: Database Setup
 
-5. **Run migrations**
 ```bash
+# Run migrations
 python manage.py migrate
-```
 
-6. **Populate sample data**
-```bash
+# Create superuser (optional, for Django admin)
+python manage.py createsuperuser
+
+# Populate sample data (IMPORTANT for demo)
 cd ..
 python populate_db.py
 ```
 
-7. **Start the development server**
+This creates:
+- 104 sample leads with realistic data
+- Sample conversations
+- Campaign metrics
+
+### Step 5: Start Backend Server
+
 ```bash
 cd backend
 python manage.py runserver 8000
 ```
 
-Backend API will be available at: `http://localhost:8000`
+**Verify**: Open http://localhost:8000/api/health
+Should return: `{"status": "ok"}`
 
----
+### Step 6: Frontend Setup
 
-### Frontend Setup
+In a new terminal:
 
-1. **Navigate to frontend directory**
 ```bash
-cd ../frontend
-```
+cd frontend
 
-2. **Install dependencies**
-```bash
+# Install dependencies
 npm install
-```
 
-3. **Set up environment variables**
-
-Create a `.env.local` file in the `frontend` directory:
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8000
-```
-
-4. **Start the development server**
-```bash
+# Start development server
 npm run dev
 ```
 
-Frontend application will be available at: `http://localhost:3000`
+**Access Application**: http://localhost:3000
 
 ---
 
-## 📸 Application Screenshots
+## 📱 Usage Guide
 
-### Dashboard
-![Dashboard](docs/images/01_dashboard.png)
-*Main dashboard with navigation and overview*
+### 1. Create a Campaign
 
-### Leads Management
-![Leads Page](docs/images/02_leads.png)
-*Browse and filter all lead data from CRM*
+1. Navigate to **"Create Campaign"**
+2. Fill in campaign details:
+   - **Name**: "Sobha Crest Q4 2024"
+   - **Project**: Select "Sobha Crest"
+   - **Budget Range**: 1,000,000 - 1,500,000
+   - **Unit Types**: Check "2 bed" and "3 bed"
+   - **Lead Status**: "Not Connected", "Connected"
+   - **Channel**: WhatsApp or Email
+3. Click **"Shortlist Leads"** → See matching count
+4. Click **"Create Campaign"**
 
-### Create Campaign
-![Create Campaign](docs/images/03_create_campaign.png)
-*Shortlist leads and configure campaign settings with real-time lead count*
+### 2. Execute Campaign
 
-### Campaign List
-![Campaigns List](docs/images/04_campaigns_list.png)
-*View all campaigns with status tracking and execution controls*
+1. Go to **"All Campaigns"**
+2. Click **"Execute Campaign"**
+3. Watch backend console for AI-generated messages
+4. Each message is personalized with:
+   - Lead's name and context
+   - Budget and preferences
+   - Property features from brochures
+   - Special offers
 
-### Campaign Analytics
-![Analytics](docs/images/05_analytics.png)
-*Comprehensive campaign performance metrics and visualizations*
+### 3. View AI Conversations
 
-### AI Agent Follow-ups
-![Follow-ups](docs/images/06_followups.png)
-*Track all AI agent conversations with leads*
+1. Navigate to **"AI Agent Follow-ups"**
+2. Select your campaign
+3. Click **"View Conversation"** on any lead
+4. See the AI-generated personalized message
+5. Simulate lead reply to see Claude respond
 
-### Conversation Modal
-![Conversation Details](docs/images/07_conversation_modal.png)
-*View full conversation thread and send follow-up messages*
+### 4. Simulate Lead Response
 
-### Scheduled Visits
-![Scheduled Visits](docs/images/08_scheduled_visits.png)
-*Track property visits and sales calls scheduled with leads*
-
-### AI Agent Settings
-![Settings](docs/images/09_settings.png)
-*Configure AI agent behavior, follow-up intervals, and messaging preferences*
-
-### Knowledge Base
-![Knowledge Base](docs/images/10_knowledge_base.png)
-*Upload property documents for AI-powered information retrieval*
-
----
-
-## 🤖 AI Assistant Deep Dive
-
-The heart of this system is the **AI-Powered Lead Nurturing Agent** that handles intelligent conversations with leads at scale.
-
-### How the AI Assistant Works
-
-#### 1. **Hyper-Personalized Message Generation**
-
-When a campaign is executed, the AI agent generates unique, personalized messages for each lead by analyzing:
-
-- **Lead Demographics**: Name, contact details, family size
-- **Past Enquiry Data**: Previously enquired project, budget range, unit preferences
-- **Conversation History**: Last conversation summary and context
-- **Target Project**: Features and amenities from knowledge base
-- **Campaign Offers**: Special promotions and offers
-
-**Example Personalized Message**:
-```
-Hi Sarah,
-
-I hope this message finds you well. I remember you were interested in 
-Sobha Crest last year, particularly looking for a spacious 3-bedroom 
-apartment for your family of 4 with a budget around ₹15M.
-
-I wanted to reach out because we have an exciting new project - Lumina Grand - 
-that I think would be perfect for you. It offers:
-
-✨ Spacious 3-bedroom units with modern layouts
-💼 Excellent investment potential in a prime location
-🏊 World-class amenities including swimming pool, gym, and children's play area
-
-📢 Special Launch Offer: 10% discount for early birds!
-
-Would you be interested in scheduling a property viewing?
-
-Best regards,
-PropLens AI Team
+```bash
+curl -X POST http://localhost:8000/api/conversations/1/reply \
+  -H "Content-Type: application/json" \
+  -d '{"message": "I would love to schedule a viewing this week!"}'
 ```
 
-![AI Personalized Message](docs/images/12_ai_conversation_personalized.png)
-*Example of AI-generated personalized message in conversation thread*
-
----
-
-#### 2. **Intelligent Response Handling with RAG**
-
-When leads respond with questions, the AI agent uses **Retrieval Augmented Generation (RAG)** to:
-
-1. **Understand Intent**: Analyzes the lead's question using GPT-4
-2. **Retrieve Information**: Searches the knowledge base (property brochures) using semantic search
-3. **Generate Response**: Creates accurate, contextual answers with relevant property details
-4. **Add CTA**: Includes appropriate call-to-action to move lead toward goal
-
-**Example Conversation Flow**:
-
-```
-👤 Lead: "What are the amenities and facilities in this property?"
-
-🤖 AI Agent: "Lumina Grand offers exceptional amenities including:
-
-🏊 Temperature-controlled swimming pool
-💪 Fully-equipped fitness center with modern equipment
-🎮 Children's play area with safe, modern equipment
-🌳 Landscaped gardens and walking trails
-🚗 Covered parking with EV charging stations
-🔒 24/7 security with CCTV surveillance
-📶 High-speed fiber internet connectivity
-
-Would you like to schedule a site visit to experience these facilities 
-in person? I have availability this week!"
-```
-
-**Technology Stack**:
-- **Vector Database**: ChromaDB for document embeddings
-- **Embeddings**: HuggingFace all-MiniLM-L6-v2
-- **LLM**: Anthropic Claude 3.5 Sonnet for intelligent response generation
-- **Framework**: LangChain + LangGraph for multi-agent RAG orchestration
-
-![AI Follow-ups List](docs/images/11_ai_followups_list.png)
-*AI Agent Follow-ups dashboard showing all active conversations*
-
----
-
-#### 3. **Sentiment Analysis & Prioritization**
-
-The AI automatically analyzes sentiment in lead responses:
-
-- 😊 **Positive**: Lead shows interest, enthusiastic responses
-- 😐 **Neutral**: Lead asking questions, gathering information
-- 😟 **Negative**: Lead expressing concerns or disinterest
-
-Sentiment helps sales teams prioritize which leads need immediate attention.
-
-![Sentiment Analysis](docs/images/06_followups.png)
-*Sentiment badges help prioritize high-intent leads*
-
----
-
-#### 4. **Goal Detection & Automated Scheduling**
-
-The AI agent detects when a lead expresses intent for:
-- 🏢 **Property Visit**: Lead wants to see the property
-- ☎️ **Sales Call**: Lead wants to speak with a sales advisor
-
-When detected, the system:
-1. ✅ Marks the goal as achieved
-2. 📅 Creates a scheduled visit/call record
-3. 📧 Notifies the sales team
-4. 🎯 Tracks conversion in analytics
-
-![Goal Tracking](docs/images/15_ai_goal_tracking.png)
-*Mark goals achieved and schedule property visits*
-
----
-
-#### 5. **Manual Override & Human-in-the-Loop**
-
-Sales associates can:
-- 👁️ View all AI conversations in real-time
-- ✍️ Send manual follow-up messages when needed
-- 🎯 Mark goals as achieved manually
-- ⚙️ Configure AI behavior and messaging style
-
-![Send Manual Message](docs/images/13_ai_send_message.png)
-*Manual message override for human-in-the-loop control*
-
----
-
-#### 6. **Configurable AI Behavior**
-
-The AI agent's personality and approach can be customized:
-
-**Follow-up Settings**:
-- Interval between follow-ups (1-30 days)
-- Maximum follow-up attempts (1-10)
-
-**Messaging Focus**:
-- Property Features & Benefits
-- Pricing & Payment Plans
-- Location & Amenities
-- Investment Opportunities
-
-**Response Style**:
-- Professional & Formal
-- Friendly & Conversational
-- Direct & Concise
-- Detailed & Informative
-
-**Urgency Level**:
-- Low - Subtle, patient approach
-- Medium - Moderate urgency
-- High - Strong call to action
-
-**Custom Instructions**:
-Free-text field for specific behavioral guidelines
-
-![AI Settings](docs/images/09_settings.png)
-*Comprehensive AI agent configuration options*
-
----
-
-#### 7. **Campaign Execution at Scale**
-
-The AI can process hundreds of leads simultaneously:
-
-![Campaign Execution](docs/images/14_ai_campaign_execution.png)
-*Execute campaigns with one click to send personalized messages at scale*
-
-**Example Campaign Results**:
-- ✅ 104 leads shortlisted
-- 📧 104 personalized messages generated
-- 💬 45 responses received
-- 🎯 12 property visits scheduled
-- 📊 11.5% conversion rate
-
----
-
-### AI Assistant Architecture
-
-```mermaid
-graph TD
-    A[Campaign Execution] --> B[MessagePersonalizer AI]
-    B --> C[Lead Data Retrieval]
-    B --> D[RAG System]
-    D --> E[ChromaDB Vector Store]
-    D --> F[Property Knowledge Base]
-    B --> G[GPT-4 Personalization]
-    G --> H[Personalized Messages]
-    H --> I[Conversation Records]
-    
-    J[Lead Response] --> K[Intent Detection]
-    K --> L{Goal Achieved?}
-    L -->|Yes| M[Schedule Visit/Call]
-    L -->|No| N[RAG Question Answering]
-    N --> O[GPT-4 Response]
-    O --> P[Send Follow-up]
-    
-    style B fill:#4ade80
-    style D fill:#60a5fa
-    style G fill:#f472b6
-    style K fill:#fbbf24
-```
-
----
-
-### Key AI Features Summary
-
-| Feature | Technology | Benefit |
-|---------|-----------|----------|
-| **Message Personalization** | Claude 3.5 Sonnet + Lead Data | 10x more relevant than generic templates |
-| **RAG Q&A** | ChromaDB + LangChain | Accurate property information from brochures |
-| **Sentiment Analysis** | Claude NLP | Prioritize high-intent leads |
-| **Goal Detection** | Intent Classification | Automatic conversion tracking |
-| **Scalability** | Async Processing | Handle 1000s of leads simultaneously |
-| **Customization** | Configurable Settings | Adapt to your brand voice |
-
----
-
-## ✅ Implemented Features
-
-### Core Functionality (User Stories)
-
-#### ✅ User Story 1: Shortlist Leads for Follow-Up
-**Status**: **IMPLEMENTED**
-
-- [x] Filter leads by project name (8 projects available)
-- [x] Filter by budget range (min/max custom fields)
-- [x] Filter by unit type (multi-select: studio, 1-4 bed, duplex, penthouse)
-- [x] Filter by lead status (6 statuses: Not Connected, Connected, Visit Scheduled, etc.)
-- [x] Filter by last conversation date (date range picker)
-- [x] Real-time lead count display
-- [x] Minimum 2 filters requirement enforced
-- [x] Flexible filter combinations
-
-**Implementation Details**:
-- Frontend: `frontend/app/campaigns/page.tsx`
-- Backend: `backend/api/campaign_api.py` - `shortlist_leads` endpoint
-- Database queries with Django ORM filters
-
----
-
-#### ✅ User Story 2: Customize Follow-Up Message
-**Status**: **IMPLEMENTED**
-
-- [x] Campaign project name selection (dropdown)
-- [x] Message channel selection (Email/WhatsApp)
-- [x] Sales offer details (text field)
-- [x] Campaign naming
-- [x] Auto-save campaign configuration
-
-**Implementation Details**:
-- Frontend: `frontend/app/campaigns/page.tsx`
-- Backend: `backend/api/models.py` - `CampaignConfig` model
-- API: `/api/campaigns/create` endpoint
-
----
-
-#### ✅ User Story 3: Send Automated Follow-Up Messages
-**Status**: **IMPLEMENTED**
-
-- [x] One-click campaign execution
-- [x] AI-powered message personalization using:
-  - Lead's name and contact details
-  - Past project enquiries
-  - Budget and unit preferences
-  - Last conversation summary
-  - Family demographics
-- [x] Integration with `MessagePersonalizer` AI agent
-- [x] RAG-based property information retrieval
-- [x] Automated message dispatch (simulated for POC)
-- [x] Conversation record creation
-- [x] Campaign status tracking (Draft → Running → Completed)
-
-**Implementation Details**:
-- Frontend: `frontend/app/campaigns/list/page.tsx` - Execute button
-- Backend: `backend/api/campaign_api.py` - `execute_campaign` endpoint
-- AI: `backend/agent/message_personalizer.py`
-- RAG: `backend/agent/rag.py` - ChromaDB + OpenAI embeddings
-
----
-
-#### ✅ User Story 4: Tracking Agent Replies
-**Status**: **IMPLEMENTED**
-
-- [x] Dedicated "AI Agent Follow-ups" page
-- [x] List all conversations grouped by campaign
-- [x] Filter conversations by campaign
-- [x] View conversation modal with full thread
-- [x] Display AI agent messages and lead responses
-- [x] Sentiment analysis for prioritization
-- [x] Manual follow-up capability
-- [x] Mark goal achieved (visit/call scheduled)
-- [x] Auto-create scheduled visit records
-
-**Implementation Details**:
-- Frontend: `frontend/app/followups/page.tsx`
-- Backend: `backend/api/followup_api.py`
-- Models: `Conversation`, `SentMessage`, `ScheduledVisit`
-
----
-
-### Additional Features Implemented
-
-#### ✅ Campaign Analytics Dashboard
-- Campaign-wise metrics visualization
-- Key performance indicators:
-  - Leads shortlisted
-  - Messages sent
-  - Responses received
-  - Goals achieved
-- Charts and trend analysis
-- Campaign comparison
-
-#### ✅ Knowledge Base Management
-- Document upload interface (PDF, DOCX, TXT)
-- AI-powered document processing
-- Vector database (ChromaDB) for semantic search
-- Property-specific information retrieval
-- RAG integration for intelligent responses
-
-#### ✅ AI Agent Configuration
-- Follow-up interval settings (days)
-- Maximum follow-up attempts
-- Messaging focus selection:
-  - Property Features & Benefits
-  - Pricing & Payment Plans
-  - Location & Amenities
-  - Investment Opportunities
-- AI response style:
-  - Professional & Formal
-  - Friendly & Conversational
-  - Direct & Concise
-  - Detailed & Informative
-- Urgency level control (Low/Medium/High)
-- Custom AI instructions textarea
-
-#### ✅ Scheduled Visits Dashboard
-- List all property visits and sales calls
-- Lead contact information
-- Visit dates and times
-- Conversation summaries
-- Goal tracking
-
-#### ✅ Premium UI/UX
-- Modern dark gradient sidebar navigation
-- Colorful icon system for easy navigation
-- Smooth hover animations
-- Responsive design
-- Professional branding with gradient text
-- Consistent design language across all pages
-
----
-
-## 🔮 Future Improvements
-
-Based on the requirements document and current implementation, here are recommended improvements:
-
-### High Priority
-
-#### 1. **Real Message Integration**
-**Current**: Messages are logged to console (POC simulation)  
-**Improvement**: 
-- Integrate with SendGrid/AWS SES for email delivery
-- Integrate with Twilio/WhatsApp Business API for WhatsApp messages
-- Real message delivery with tracking
-- Webhooks for response handling
-
-#### 2. **Automated Follow-up Scheduler**
-**Current**: Manual follow-up triggering  
-**Improvement**:
-- Implement Celery task queue
-- Redis for message broker
-- Automated follow-up generation based on:
-  - Follow-up interval settings
-  - Lead response status
-  - Campaign rules
-- Scheduled task execution
-- Retry logic for failed messages
-
-#### 3. **Email/WhatsApp Response Parsing**
-**Current**: Manual response simulation  
-**Improvement**:
-- Email webhook integration (SendGrid, Mailgun)
-- WhatsApp webhook for incoming messages
-- Automatic conversation threading
-- Intent detection for goal identification
-- Auto-trigger visit scheduling
-
-#### 4. **Advanced Analytics**
-**Current**: Basic campaign metrics  
-**Improvement**:
-- Conversion funnel visualization
-- Time-series analysis
-- A/B testing for message templates
-- Lead scoring and prediction
-- ROI tracking
-- Export reports (PDF, CSV)
-
-#### 5. **Multi-tenancy Support**
-**Current**: Single organization  
-**Improvement**:
-- Organization/team management
-- Role-based access control (RBAC)
-- Sales associate assignment
-- Team performance tracking
-- Data isolation per organization
-
-### Medium Priority
-
-#### 6. **Message Template Library**
-- Pre-built message templates by category
-- Template versioning
-- A/B testing capabilities
-- Success rate tracking per template
-- Template customization per campaign
-
-#### 7. **Lead Scoring System**
-- ML-based lead scoring
-- Engagement score calculation
-- Prioritization in follow-ups
-- Predictive analytics for conversion likelihood
-- Automatic cold/warm/hot lead classification
-
-#### 8. **Conversation Intelligence**
-- Automatic conversation summarization
-- Key information extraction
-- Objection detection
-- Buying signals identification
-- Follow-up recommendation AI
-
-#### 9. **Integration Hub**
-- CRM integrations (Salesforce, HubSpot, Zoho)
-- Calendar integrations (Google Calendar, Outlook)
-- Document storage (Dropbox, Google Drive)
-- Video conferencing (Zoom, Google Meet)
-- Payment gateways for booking deposits
-
-#### 10. **Mobile Application**
-- React Native mobile app
-- Push notifications for lead responses
-- On-the-go campaign management
-- Voice-to-text for quick replies
-- Offline mode support
-
-### Low Priority
-
-#### 11. **Advanced Personalization**
-- Dynamic content blocks
-- Conditional messaging logic
-- Multi-language support
-- Cultural sensitivity adjustments
-- Timezone-aware scheduling
-
-#### 12. **Compliance & Security**
-- GDPR compliance features
-- Data retention policies
-- Audit logging
-- Encryption at rest and in transit
-- Two-factor authentication
-
-#### 13. **Performance Optimization**
-- Database query optimization
-- Caching layer (Redis)
-- CDN for static assets
-- Lazy loading and pagination
-- Background job processing
+The system will:
+- Detect scheduling intent
+- Create scheduled visit
+- Mark goal as achieved
+- Notify you
+
+### 5. View Scheduled Visits
+
+1. Go to **"Property Visit/Call Scheduled"**
+2. See all auto-created appointments
+3. View lead contact information
+4. Read conversation summaries
+
+### 6. Check Analytics
+
+1. Navigate to **"Campaign Analytics"**
+2. Select campaign
+3. View metrics:
+   - **Leads Shortlisted**: Total in campaign
+   - **Messages Sent**: AI messages generated
+   - **Unique Responses**: Leads who replied
+   - **Goals Achieved**: Scheduled visits/calls
+
+### 7. Configure AI Behavior
+
+1. Go to **"AI Agent Settings"**
+2. Configure:
+   - Follow-up interval (days)
+   - Maximum follow-ups
+   - Messaging focus
+   - Response style
+   - Urgency level
+3. Settings auto-save and apply to future campaigns
 
 ---
 
 ## 📁 Project Structure
 
 ```
-cms_real_estate/
+Lead-Nurturing-CRM/
 ├── backend/
-│   ├── api/                    # Django app
-│   │   ├── models.py          # Database models
+│   ├── api/
+│   │   ├── models.py          # Django models
 │   │   ├── campaign_api.py    # Campaign endpoints
-│   │   ├── followup_api.py    # Follow-up endpoints
-│   │   ├── knowledge_api.py   # Knowledge base endpoints
-│   │   └── ...
-│   ├── agent/                  # AI agents
-│   │   ├── message_personalizer.py
-│   │   ├── rag.py             # RAG system
-│   │   └── ...
-│   ├── config/                 # Django settings
-│   ├── data/                   # Sample data files
-│   ├── chroma_db/              # Vector database
+│   │   ├── settings_api.py    # Settings endpoints
+│   │   └── schemas.py         # API schemas
+│   ├── agent/
+│   │   ├── graph.py           # LangGraph multi-agent
+│   │   ├── rag.py             # RAG system with Claude
+│   │   ├── sql.py             # SQL query system
+│   │   └── personalizer.py   # Message personalization
+│   ├── config/
+│   │   ├── settings.py        # Django settings
+│   │   └── urls.py            # URL routing
+│   ├── data/
+│   │   └── brochures/         # Property PDF brochures
 │   ├── manage.py
-│   └── requirements.txt
+│   └── requirements.txt       # Python dependencies
 ├── frontend/
-│   ├── app/                    # Next.js pages
-│   │   ├── page.tsx           # Dashboard
-│   │   ├── leads/             # Leads page
+│   ├── app/
 │   │   ├── campaigns/         # Campaign pages
-│   │   ├── analytics/         # Analytics
-│   │   ├── followups/         # Follow-ups
-│   │   ├── settings/          # AI settings
+│   │   ├── followups/         # Conversation viewer
+│   │   ├── analytics/         # Analytics dashboard
 │   │   ├── scheduled/         # Scheduled visits
+│   │   ├── settings/          # AI settings
 │   │   └── knowledge/         # Knowledge base
 │   ├── components/
 │   │   └── Sidebar.tsx        # Navigation
-│   ├── public/
 │   ├── package.json
 │   └── tsconfig.json
-├── demo/                       # Reference screenshots
-├── intelligent_frames/         # UI mockups
-├── workflow_frames/            # Workflow diagrams
-└── README.md                   # This file
+├── populate_db.py             # Sample data generator
+├── ingest_brochures.py        # Brochure ingestion
+└── README.md                  # This file
 ```
 
 ---
 
-## 📚 API Documentation
+## 🔌 API Documentation
 
 ### Base URL
 ```
 http://localhost:8000/api
 ```
 
-### Endpoints
+### Campaigns
 
-#### Campaigns
-
-**Create Campaign**
+#### Create Campaign
 ```http
 POST /campaigns/create
 Content-Type: application/json
@@ -809,47 +424,29 @@ Content-Type: application/json
 {
   "name": "Q4 Luxury Campaign",
   "target_project": "Sobha Crest",
-  "channel": "email",
-  "budget_min": 1000000,
-  "budget_max": 2000000,
-  "unit_types": ["2 bed", "3 bed"],
-  "lead_status": "Connected"
+  "channel": "whatsapp",
+  "filter_criteria": {
+    "budget_min": "1000000",
+    "budget_max": "2000000",
+    "unit_types": "2 bed,3 bed",
+    "statuses": "Connected"
+  }
 }
 ```
 
-**Shortlist Leads**
-```http
-POST /campaigns/shortlist
-Content-Type: application/json
-
-{
-  "target_project": "Sobha Crest",
-  "budget_min": 1000000,
-  "budget_max": 2000000,
-  "unit_types": ["2 bed"],
-  "lead_status": "Connected"
-}
-
-Response:
-{
-  "count": 104
-}
-```
-
-**Execute Campaign**
+#### Execute Campaign
 ```http
 POST /campaigns/{campaign_id}/execute
 
 Response:
 {
   "status": "success",
-  "message": "Campaign executed successfully. Sent 104 messages to 104 leads.",
-  "messages_sent": 104,
-  "leads_reached": 104
+  "messages_sent": 15,
+  "campaign_status": "running"
 }
 ```
 
-**List Campaigns**
+#### List Campaigns
 ```http
 GET /campaigns/list
 
@@ -859,92 +456,39 @@ Response:
     {
       "id": 1,
       "name": "Q4 Luxury Campaign",
-      "target_project": "Sobha Crest",
-      "channel": "email",
       "status": "running",
-      "messages_sent": 104,
-      "leads_count": 104,
-      "created_at": "2025-11-23T10:30:00Z",
-      "executed_at": "2025-11-23T10:35:00Z"
+      "leads_count": 15,
+      "messages_sent": 15
     }
   ]
 }
 ```
 
-#### Follow-ups
+### Conversations
 
-**Get Conversations**
+#### Get Campaign Conversations
 ```http
-GET /followups/conversations?campaign_id=1
-
-Response:
-{
-  "conversations": [
-    {
-      "lead_id": 1,
-      "lead_name": "John Doe",
-      "sentiment": "positive",
-      "last_message": "What are the amenities?",
-      "last_message_time": "2025-11-23T11:00:00Z"
-    }
-  ]
-}
+GET /campaigns/{campaign_id}/conversations
 ```
 
-**Send Follow-up Message**
+#### Add Lead Reply
 ```http
-POST /followups/send
+POST /conversations/{lead_id}/reply
 Content-Type: application/json
 
 {
-  "lead_id": 1,
-  "message": "Looking forward to our meeting!"
+  "message": "I'm interested! Can you tell me more?"
 }
 ```
 
-**Mark Goal Achieved**
+#### Mark Goal Achieved
 ```http
-POST /followups/mark-goal
-Content-Type: application/json
-
-{
-  "lead_id": 1,
-  "visit_date": "2025-11-25",
-  "visit_time": "15:00"
-}
+POST /conversations/{lead_id}/mark-goal
 ```
 
-#### Knowledge Base
+### AI Settings
 
-**Upload Document**
-```http
-POST /knowledge/upload
-Content-Type: multipart/form-data
-
-file: <PDF/DOCX/TXT file>
-project_name: "Sobha Crest"
-```
-
-**List Documents**
-```http
-GET /knowledge/documents
-
-Response:
-{
-  "documents": [
-    {
-      "id": 1,
-      "filename": "sobha_crest_brochure.pdf",
-      "project_name": "Sobha Crest",
-      "upload_date": "2025-11-23T09:00:00Z"
-    }
-  ]
-}
-```
-
-#### AI Agent Settings
-
-**Get Settings**
+#### Get Settings
 ```http
 GET /agent-settings
 
@@ -953,13 +497,11 @@ Response:
   "followup_interval_days": 3,
   "max_followups": 5,
   "messaging_focus": "Property Features & Benefits",
-  "response_style": "Professional & Formal",
-  "urgency_level": "Medium - Moderate urgency",
-  "custom_instructions": "Always mention property views"
+  "response_style": "Professional & Formal"
 }
 ```
 
-**Update Settings**
+#### Update Settings
 ```http
 POST /agent-settings
 Content-Type: application/json
@@ -967,12 +509,58 @@ Content-Type: application/json
 {
   "followup_interval_days": 5,
   "max_followups": 7,
-  "messaging_focus": "Pricing & Payment Plans",
-  "response_style": "Friendly & Conversational",
-  "urgency_level": "High - Strong call to action",
-  "custom_instructions": "Focus on investment potential"
+  "messaging_focus": "Investment Opportunities",
+  "response_style": "Friendly & Conversational"
 }
 ```
+
+---
+
+## 🐛 Troubleshooting
+
+### Issue: "No leads match your criteria"
+**Solution**: Run `python populate_db.py` to create sample data
+
+### Issue: Backend 500 error on campaign execute
+**Solution**:
+1. Check `ANTHROPIC_API_KEY` is set in `backend/.env`
+2. Verify you have credits in Anthropic account
+3. Run migrations: `python manage.py migrate`
+4. Check backend console for detailed error
+
+### Issue: Frontend not loading
+**Solution**:
+1. Verify backend is running on port 8000
+2. Verify frontend is running on port 3000
+3. Check browser console for errors
+4. Try: `rm -rf .next && npm run dev`
+
+### Issue: Conversations not showing
+**Solution**:
+1. Execute a campaign first
+2. Check backend console for API errors
+3. Verify `ANTHROPIC_API_KEY` is valid
+
+### Issue: AI responses are generic
+**Solution**:
+1. Upload property brochures via Knowledge Base page
+2. Or run: `python ingest_brochures.py`
+3. Ensure PDFs are in `backend/data/brochures/`
+
+### Issue: "uv command not found"
+**Solution**:
+```bash
+# Install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# Restart terminal
+source ~/.bashrc  # or ~/.zshrc
+```
+
+### Issue: Claude API rate limit errors
+**Solution**:
+1. Check your usage at https://console.anthropic.com/
+2. Wait a few minutes and retry
+3. Consider upgrading your Anthropic plan
 
 ---
 
@@ -1007,8 +595,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📧 Support
 
-For questions or support, please open an issue on GitHub or contact the development team.
+For issues or questions, please open an issue on GitHub or contact the development team.
 
 ---
 
 **Built with ❤️ for Real Estate Sales Teams**
+
+**Powered by Anthropic Claude 3.5 Sonnet** 🤖
