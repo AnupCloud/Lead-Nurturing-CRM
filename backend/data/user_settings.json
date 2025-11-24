@@ -1,0 +1,7 @@
+{
+  "name": "Sales Admin",
+  "email": "admin@proplens.ai",
+  "notification_email": "sales@proplens.ai",
+  "email_notifications": true,
+  "goal_alerts": true
+}
