@@ -517,14 +517,14 @@ The system uses **LangGraph** (from LangChain) to orchestrate multiple specializ
 
 ```mermaid
 graph TD
-    Start([Lead Message]) --> Router{Router Agent<br/>Intent Detection}
+    Start([Lead Message]) --> Router{Router Agent\nIntent Detection}
     
-    Router -->|SQL Query| SQL[SQL Agent<br/>Database Queries]
-    Router -->|Property Question| RAG[RAG Agent<br/>Knowledge Retrieval]
-    Router -->|Scheduling Intent| Goal[Goal Agent<br/>Visit Scheduling]
-    Router -->|Contact Details| Contact[Contact Agent<br/>Detail Capture]
-    Router -->|Closing| Closing[Closing Agent<br/>Conversation End]
-    Router -->|Follow-up| Followup[Follow-up Agent<br/>More Questions]
+    Router -->|SQL Query| SQL[SQL Agent\nDatabase Queries]
+    Router -->|Property Question| RAG[RAG Agent\nKnowledge Retrieval]
+    Router -->|Scheduling Intent| Goal[Goal Agent\nVisit Scheduling]
+    Router -->|Contact Details| Contact[Contact Agent\nDetail Capture]
+    Router -->|Closing| Closing[Closing Agent\nConversation End]
+    Router -->|Follow-up| Followup[Follow-up Agent\nMore Questions]
     
     SQL --> Response([AI Response])
     RAG --> Response
@@ -556,21 +556,21 @@ graph TD
 flowchart TD
     A[Incoming Message] --> B{Analyze Message}
     
-    B --> C{Contains Closing<br/>Keywords?}
-    C -->|Yes: no, thanks,<br/>that's all| D[→ Closing Agent]
+    B --> C{Contains Closing\nKeywords?}
+    C -->|Yes: no, thanks, that's all| D[Closing Agent]
     
-    C -->|No| E{Contains Phone/<br/>Time/Email?}
-    E -->|Yes| F[→ Contact Agent]
+    C -->|No| E{Contains Phone/\nTime/Email?}
+    E -->|Yes| F[Contact Agent]
     
-    E -->|No| G{After Booking<br/>Context?}
-    G -->|Yes + affirmative| H[→ Follow-up Agent]
+    E -->|No| G{After Booking\nContext?}
+    G -->|Yes + affirmative| H[Follow-up Agent]
     
-    G -->|No| I{Goal Keywords +<br/>Scheduling Context?}
-    I -->|Yes: schedule,<br/>visit, arrange| J[→ Goal Agent]
+    G -->|No| I{Goal Keywords +\nScheduling Context?}
+    I -->|Yes: schedule, visit, arrange| J[Goal Agent]
     
-    I -->|No| K{SQL vs RAG<br/>Score}
-    K -->|SQL Keywords:<br/>leads, campaigns| L[→ SQL Agent]
-    K -->|RAG Keywords:<br/>amenities, price| M[→ RAG Agent]
+    I -->|No| K{SQL vs RAG\nScore}
+    K -->|SQL Keywords: leads, campaigns| L[SQL Agent]
+    K -->|RAG Keywords: amenities, price| M[RAG Agent]
     
     style B fill:#fbbf24
     style D fill:#fb923c
@@ -621,13 +621,13 @@ sequenceDiagram
     participant ChromaDB
     participant Claude
     
-    Lead->>Router: "What amenities does<br/>Lumina Grand have?"
+    Lead->>Router: What amenities does Lumina Grand have?
     Router->>RAG: Route to RAG Agent
-    RAG->>ChromaDB: Semantic Search<br/>(HuggingFace embeddings)
+    RAG->>ChromaDB: Semantic Search (HuggingFace)
     ChromaDB-->>RAG: Relevant Document Chunks
-    RAG->>Claude: Generate Answer<br/>with Context
+    RAG->>Claude: Generate Answer with Context
     Claude-->>RAG: Formatted Response
-    RAG-->>Lead: "Lumina Grand offers:<br/>Pool, Gym, Gardens..."
+    RAG-->>Lead: Lumina Grand offers: Pool, Gym, Gardens
 ```
 
 **Implementation**:
@@ -655,13 +655,13 @@ def rag_node(state: AgentState):
 
 ```mermaid
 flowchart LR
-    A[Lead Query:<br/>"Show  me leads<br/>under 1M budget"] --> B[SQL Agent]
+    A["Lead Query:\nShow me leads\nunder 1M budget"] --> B[SQL Agent]
     B --> C{Parse Query}
-    C --> D[Generate<br/>SQL Query]
-    D --> E[(SQLite<br/>Database)]
+    C --> D[Generate\nSQL Query]
+    D --> E[(SQLite\nDatabase)]
     E --> F[Execute Query]
     F --> G[Format Results]
-    G --> H[Natural Language<br/>Response]
+    G --> H[Natural Language\nResponse]
     
     style B fill:#60a5fa
     style E fill:#cbd5e1
@@ -681,16 +681,16 @@ flowchart LR
 
 ```mermaid
 stateDiagram-v2
-    [*] --> DetectIntent: User: "I'd like<br/>to schedule"
+    [*] --> DetectIntent
     DetectIntent --> AskProperty: Show Property List
-    AskProperty --> AskDetails: User selects<br/>property
-    AskDetails --> CaptureContact: User provides<br/>phone + time
-    CaptureContact --> Confirmed: Generate<br/>Booking Ref
+    AskProperty --> AskDetails: User selects property
+    AskDetails --> CaptureContact: User provides phone and time
+    CaptureContact --> Confirmed: Generate Booking Ref
     Confirmed --> [*]
     
-    note right of DetectIntent: Goal Agent
-    note right of AskDetails: Contact Agent
-    note right of Confirmed: Auto-create<br/>ScheduledVisit
+    note right of DetectIntent: Goal Agent handles intent
+    note right of AskDetails: Contact Agent extracts details
+    note right of Confirmed: Auto-creates ScheduledVisit record
 ```
 
 **Conversation Flow**:
@@ -765,27 +765,27 @@ sequenceDiagram
     participant Contact
     participant DB
     
-    Lead->>Router: "I want to visit Lumina Grand"
-    Router->>Router: Detect "visit" keyword
+    Lead->>Router: I want to visit Lumina Grand
+    Router->>Router: Detect visit keyword
     Router->>Goal: Route to Goal Agent
-    Goal->>Lead: "Excellent! Which property?<br/>[Property List]"
+    Goal->>Lead: Excellent! Which property?
     
-    Lead->>Router: "Lumina Grand"
-    Router->>Goal: Route to Goal Agent
-    Goal->>Lead: "Great! Phone number<br/>and preferred time?"
+    Lead->>Router: Lumina Grand
+    Router->>Goal: Route to Goal Agent  
+    Goal->>Lead: Great! Phone number and preferred time?
     
-    Lead->>Router: "0501234567, morning"
+    Lead->>Router: 0501234567 morning
     Router->>Router: Detect phone + time
     Router->>Contact: Route to Contact Agent
-    Contact->>Contact: Extract: phone, time
+    Contact->>Contact: Extract phone and time
     Contact->>DB: Create ScheduledVisit
-    DB-->>Contact: Visit ID: 123
-    Contact->>Lead: "✅ Booking Confirmed!<br/>Ref: PL202411241030"
+    DB-->>Contact: Visit ID 123
+    Contact->>Lead: Booking Confirmed! Ref PL202411241030
     
-    Contact->>Lead: "Anything else?"
-    Lead->>Router: "No, thanks!"
+    Contact->>Lead: Anything else?
+    Lead->>Router: No thanks
     Router->>Closing: Route to Closing Agent
-    Closing->>Lead: "Have a wonderful day!"
+    Closing->>Lead: Have a wonderful day
 ```
 
 ---
@@ -1714,44 +1714,3 @@ source ~/.bashrc  # or ~/.zshrc
 1. Check your usage at https://console.anthropic.com/
 2. Wait a few minutes and retry
 3. Consider upgrading your Anthropic plan
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- Anthropic for Claude 3.5 Sonnet API
-- LangChain and LangGraph for multi-agent framework
-- Astral (uv) for ultra-fast Python package management
-- Next.js and Django communities
-- ChromaDB for vector database
-- All contributors and testers
-
----
-
-## 📧 Support
-
-For issues or questions, please open an issue on GitHub or contact the development team.
-
----
-
-**Built with ❤️ for Real Estate Sales Teams**
-
-**Powered by Anthropic Claude 3.5 Sonnet** 🤖
